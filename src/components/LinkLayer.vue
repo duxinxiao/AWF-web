@@ -75,7 +75,6 @@
           dstPort: null,
         },
         processing: false,
-        completed: 0.3,
         step: 0,
       };
     },
@@ -83,15 +82,20 @@
     },
     methods: {
       onSubmit() {
-        this.completed = 0;
         if (!this.form.modelFile || !this.form.srcIP || !this.form.dstIP || !this.form.dstPort) {
           this.$message.error('请填写参数');
         } else {
           this.processing = true;
+          this.step = 0;
           const timer = setInterval(() => {
             this.step += 1;
             if (this.step >= 5) {
               clearInterval(timer);
+              setTimeout(() => {
+                this.$alert(`识别出用户 ${this.form.srcIP} 正在访问 facebook.com`, '', {
+                  confirmButtonText: '确定',
+                });
+              }, 100);
             }
           }, 1000);
         }

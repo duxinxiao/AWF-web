@@ -21,6 +21,6 @@
 
 <style lang="scss" scoped>
   .main {
-    margin-top: 60px;
+    margin-top: 120px;
   }
 </style>

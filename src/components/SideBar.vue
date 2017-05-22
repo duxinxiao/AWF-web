@@ -2,6 +2,7 @@
   <el-menu default-active="link-layer" class="side-bar" :router="true">
     <el-menu-item index="link-layer"><i class="el-icon-menu"></i>链路层</el-menu-item>
     <el-menu-item index="protocol-layer"><i class="el-icon-menu"></i>协议层</el-menu-item>
+    <el-menu-item index="monitoring-list"><i class="el-icon-menu"></i>监控站点</el-menu-item>
   </el-menu>
 </template>
 
@@ -21,9 +22,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .main {
-    margin-top: 60px;
-  }
   .side-bar {
     position: fixed;
     top: 60px;

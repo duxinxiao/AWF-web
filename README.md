@@ -1,6 +1,6 @@
-# frontend
+# AWF-web
 
-> A Vue.js project
+> Web project for Active Website Fingerptinting write by Vue.js
 
 ## Build Setup
 

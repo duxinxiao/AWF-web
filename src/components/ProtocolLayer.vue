@@ -57,7 +57,7 @@
 </template>
 
 <script lang="babel">
-  // import axios from 'axios';
+  import axios from 'axios';
 
   export default {
     data() {
@@ -79,20 +79,40 @@
         } else {
           this.processing = true;
           this.step = 0;
-          const timer = setInterval(() => {
-            this.step += 1;
-            if (this.step >= 5) {
-              clearInterval(timer);
-              setTimeout(() => {
-                this.$alert(`识别出用户 ${this.form.srcIP} 正在访问 facebook.com`, '', {
-                  confirmButtonText: '确定',
-                });
-              }, 100);
+          axios.post('/jobs/protocol-submit', {
+            model: this.form.modelFile,
+            srcIP: this.form.srcIP,
+            dstIP: this.form.dstIP,
+            dstPort: this.form.dstPort,
+          }).then((res) => {
+            if (res.data.code === 'Success') {
+              this.getProgress();
+            } else {
+              this.$message.error(res.data.message);
             }
-          }, 1000);
+          }).catch((error) => {
+            this.$message.error(error.message);
+          });
         }
       },
       getProgress() {
+        setTimeout(() => {
+          axios.get('/jobs/protocol-progress')
+            .then((res) => {
+              if (res.data.code === 'Pending') {
+                this.step = res.data.data.step;
+                this.getProgress();
+              } else if (res.data.code === 'Success') {
+                this.$alert(`识别出用户 ${this.form.srcIP} 正在访问 facebook.com`, '', {
+                  confirmButtonText: '确定',
+                });
+              } else {
+                this.$message.error(res.data.message);
+              }
+            }).catch((error) => {
+              this.$message.error(error.message);
+            });
+        }, 5000);
       },
     },
     filters: {
